@@ -99,7 +99,7 @@ class AI(pg.sprite.Sprite):
 class Ball(pg.sprite.Sprite):
     def __init__(self, size, x, y):
         super().__init__()
-        self.image = pg.image.load('data/ball.png') 
+        self.image = pg.image.load('data/ball.png').convert_alpha()
         self.image = pg.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -225,7 +225,7 @@ class Ohjelma:
         pg.display.set_caption("Spong")
         icon = pg.image.load('data/spong.ico')
         pg.display.set_icon(icon)
-        self.bg = pg.image.load('data/tausta.png')
+        self.bg = pg.image.load('data/tausta.png').convert()
         
         #Sprite groups: (GroupSingle() could also be used to hold a single sprite)
         self.color_grey = (128, 128, 128)
