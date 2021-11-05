@@ -99,7 +99,7 @@ class AI(pg.sprite.Sprite):
 class Ball(pg.sprite.Sprite):
     def __init__(self, size, x, y):
         super().__init__()
-        self.image = pg.image.load('data/ball.png').convert_alpha()
+        self.image = pg.image.load('data/ball.png').convert_alpha() 
         self.image = pg.transform.scale(self.image, (size, size))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -132,7 +132,7 @@ class Ball(pg.sprite.Sprite):
             sound = pg.mixer.Sound('data/hit.wav')
             sound.play()
             self.vel_x = -self.vel_x
-            
+
         collision_p1 = self.rect.bottom >= Peli.p1.rect.top and self.rect.left > Peli.p1.rect.left - 20 and self.rect.right < Peli.p1.rect.right + 20
         if Peli.two_players:
             collision_p2 = self.rect.top <= Peli.p2.rect.bottom and self.rect.left > Peli.p2.rect.left and self.rect.right - self.rect.width < Peli.p2.rect.right
@@ -146,7 +146,7 @@ class Ball(pg.sprite.Sprite):
             p1_center = (Peli.p1.rect.left + Peli.p1.rect.right) // 2
             p1_middle_paddle = ball_center > p1_center - (self.rect.width // 2) and ball_center < p1_center + (self.rect.width // 2)
             
-            #move ball back a little to prevent stuck-bug
+            #move back the ball a little to prevent bugs with collision detection
             self.rect.y -= abs(self.vel_y)
 
             if p1_middle_paddle:
@@ -214,7 +214,7 @@ class Ball(pg.sprite.Sprite):
 
 class Ohjelma:
     '''Pelaaja ohjaa mailaa ja pelin tarkoituksena on lyödä pallo maaliin. Maali on aukko mailan vastakkaisessa seinässä. Pelaaja saa pisteen, jos osuu maaliin. 
-    Tietokone saa pisteen, jos pallo osuu pelaajan puoleiseen seinään. Peli loppuu 11 pisteeseen.'''
+    Tietokone saa pisteen, jos pallo osuu pelaajan puoleiseen seinään. Peli loppuu 11 pisteeseen.'''''
     def __init__(self):
         pg.mixer.pre_init(buffer=1024)
         pg.init()
@@ -225,7 +225,30 @@ class Ohjelma:
         pg.display.set_caption("Spong")
         icon = pg.image.load('data/spong.ico')
         pg.display.set_icon(icon)
-        self.bg = pg.image.load('data/tausta.png').convert()
+        #convert images for faster loading
+        self.bg1 = pg.image.load('data/tausta.png').convert()
+        self.bg2 = pg.image.load('data/space1.jpeg').convert()
+        self.bg3 = pg.image.load('data/space2.jpg').convert()
+        self.bg4 = pg.image.load('data/space3.jpg').convert()
+        self.bg5 = pg.image.load('data/space4.jpg').convert()
+        self.bg6 = pg.image.load('data/space5.jpg').convert()
+        self.bg7 = pg.image.load('data/space6.jpg').convert()
+        self.bg8 = pg.image.load('data/space7.jpg').convert()
+        self.bg9 = pg.image.load('data/space8.jpg').convert()
+        self.bg0 = pg.image.load('data/space9.jpg').convert()
+        #transform background to set screen size
+        self.bg1 = pg.transform.scale(self.bg1, (scr_width, scr_height))
+        self.bg2 = pg.transform.scale(self.bg2, (scr_width, scr_height))
+        self.bg3 = pg.transform.scale(self.bg3, (scr_width, scr_height))
+        self.bg4 = pg.transform.scale(self.bg4, (scr_width, scr_height))
+        self.bg5 = pg.transform.scale(self.bg5, (scr_width, scr_height))
+        self.bg6 = pg.transform.scale(self.bg6, (scr_width, scr_height))
+        self.bg7 = pg.transform.scale(self.bg7, (scr_width, scr_height))
+        self.bg8 = pg.transform.scale(self.bg8, (scr_width, scr_height))
+        self.bg9 = pg.transform.scale(self.bg9, (scr_width, scr_height))
+        self.bg0 = pg.transform.scale(self.bg0, (scr_width, scr_height))
+        #starting background
+        self.bg = self.bg1
         
         #Sprite groups: (GroupSingle() could also be used to hold a single sprite)
         self.color_grey = (128, 128, 128)
@@ -306,6 +329,29 @@ class Ohjelma:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     exit()
+                
+                #theme selection
+                if event.key == pg.K_1:
+                    self.bg = self.bg1
+                if event.key == pg.K_2:
+                    self.bg = self.bg2
+                if event.key == pg.K_3:
+                    self.bg = self.bg3
+                if event.key == pg.K_4:
+                    self.bg = self.bg4
+                if event.key == pg.K_5:
+                    self.bg = self.bg5
+                if event.key == pg.K_6:
+                    self.bg = self.bg6
+                if event.key == pg.K_7:
+                    self.bg = self.bg7
+                if event.key == pg.K_8:
+                    self.bg = self.bg8
+                if event.key == pg.K_9:
+                    self.bg = self.bg9
+                if event.key == pg.K_0:
+                    self.bg = self.bg0
+
                 if self.play:
                     if event.key == pg.K_F2:
                         self.restart()
@@ -329,7 +375,7 @@ class Ohjelma:
                             pg.mixer.music.stop()
                         
         #take note of the drawing order - the ones below will be drawn on top of others
-        self.scr.blit(self.bg, (0, 0))       
+        self.scr.blit(self.bg, (0, 0))  
         self.p1_group.draw(self.scr)
         if self.two_players:
             self.p2_group.draw(self.scr)
