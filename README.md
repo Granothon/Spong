@@ -1,7 +1,7 @@
 # Spong
-A pong variant
+## A pong variant
 
-My first pygame project I finished.
+My first pygame project
 - Simple AI player
 - player vs player
 - original music and sound effects
